@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.optimize import minimize_scalar
 
 
 # Функция и её градиент
@@ -20,20 +21,6 @@ def gradient_descent(x0, alpha, n_iters):
     return history
 
 
-# Метод наискорейшего спуска
-def steepest_descent(x0, n_iters):
-    history = [[x0, f(x0)]]
-    for i in range(n_iters):
-        # Для выбора оптимального alpha используем "наивный" подход: перебор значений
-        alpha = min(
-            [(alpha, f(x0 - alpha * grad_f(x0))) for alpha in np.linspace(0, 1, 100)],
-            key=lambda x: x[1],
-        )[0]
-        x0 = x0 - alpha * grad_f(x0)
-        history.append([x0, f(x0)])
-    return history
-
-
 # Начальная точка
 x0 = np.array([1.0, 1.0])
 
@@ -46,9 +33,4 @@ history_steepest_descent = steepest_descent(x0, max_iter)
 
 print("\nМетод градиентного спуска: \n")
 for result in history_gradient_descent:
-    print("x1:", result[0][0], "x2:", result[0][1], "function:", result[1])
-
-
-print("\nМетод наискорейшего спуска: \n")
-for result in history_steepest_descent:
     print("x1:", result[0][0], "x2:", result[0][1], "function:", result[1])
